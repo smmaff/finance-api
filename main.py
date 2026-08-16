@@ -32,3 +32,22 @@ def balance_see():
         else:
             balance -= transaction.amount
     return{"message": "Ваш баланс:", "data": balance}
+
+class Scoring(BaseModel):
+    amount: float
+    term: int
+
+@app.post("/scoring")
+def scoring(data: Scoring):
+    mouthly_payment = data.amount / data.term
+    balance = 0
+    for transaction in transactions:
+            if transaction.type == "Доход":
+                balance += transaction.amount
+            else:
+                balance -= transaction.amount
+    remain_balance = balance - mouthly_payment
+    if remain_balance >= mouthly_payment * 2:
+        return{"message": "Кредит одобрен!"}
+    else:
+        return{"message": "В кредите отказано!"}
