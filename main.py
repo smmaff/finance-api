@@ -18,3 +18,7 @@ def read_root():
 def add_trancaction(transaction: Transaction):
     transactions.append(transaction)
     return{"message": "Транзакция успешно добавлена!", "data": transaction}
+
+@app.get("/transactions")
+def tansaction_see():
+    return{"message": "Cписок всех транзакций: ", "data": transactions}
